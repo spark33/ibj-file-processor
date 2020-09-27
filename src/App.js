@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import "./App.css";
 import ReactDataSheet from "react-datasheet";
@@ -12,6 +12,13 @@ function App() {
   const [inputData, setInputData] = useState()
   const [outputData, setOutputData] = useState()
 
+  useEffect(() => {
+    if(inputData) {
+      // todo
+      setOutputData([])
+    }
+  }, [inputData])
+
   // https://www.programmersought.com/article/4000147640/
   const onExcelImport = fileInput => {
     // Get the uploaded file object
@@ -20,7 +27,6 @@ function App() {
     const fileReader = new FileReader();
     readExcelFile(fileReader, files);
     fileReader.onloadend = () => {
-      // console.log(fileReader.loadedFileData)
       setInputData(fileReader.loadedFileData)
     }
   }
@@ -33,14 +39,14 @@ function App() {
 
   return (
     <Container component={Box} py={8}>
-      <Box display="flex">
+      <Box>
         <input id="file-upload" type="file" accept=".xlsx, .xls" onChange={onExcelImport} style={{ display: "none" }}/>
         <label htmlFor="file-upload">
           <Button variant="contained" color="primary" component="span">
             Upload File
           </Button>
         </label>
-        <Box px={4}>
+        <Box mt={2}>
         { inputData ?
           <SimpleTabs>
               <Box label="Input Data">
