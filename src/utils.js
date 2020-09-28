@@ -23,10 +23,11 @@ export const readExcelFile = (fileReader, files) => {
             formattedSheetData.push(Object.values(row).map(cellValue => { return { value: cellValue }; })) 
           })
           data = data.concat(formattedSheetData);
-          break; // If you only take the first table, uncomment this line
+          // break; // If you only take the first table, uncomment this line
         }
       }
       fileReader.loadedFileData = data;
+      console.log("Completed XLSX file read.")
     } catch (e) {
       // Here you can throw a related prompt with a file type error incorrect.
       alert("File could not be parsed. It may have been the wrong file type.");
@@ -35,4 +36,19 @@ export const readExcelFile = (fileReader, files) => {
   };
   // Open the file in binary mode
   fileReader.readAsBinaryString(files[0]);
+}
+
+export const getColumnIndex = (headerRow, value) => {
+  try {
+    const i = headerRow.findIndex(cell => cell.value === value)
+    if (i > 0) {
+      return i
+    } else {
+      alert(`Header ${value} was not found.`)
+    }
+  } catch (err) {
+    console.log('Unknown error finding column index')
+  }
+    // Ideal; leaving below for future when I can figure out customizing Babel presets with CRA
+    // return i > 0 ? i : throw new ReferenceError(`Header ${value} was not found.`)
 }
