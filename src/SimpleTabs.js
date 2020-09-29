@@ -46,9 +46,11 @@ export default function SimpleTabs({ activeTab, setActiveTab, children }) {
         </Tabs>
       </div>
       {children.map((child, i) => (
-        <TabPanel value={activeTab} index={i}>
-          {child}
-        </TabPanel>
+        child && (
+          <TabPanel value={activeTab} index={i}>
+            {child}
+          </TabPanel>
+        )
       ))}
     </div>
   );
